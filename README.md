@@ -15,6 +15,8 @@ Per their [usage documentation](https://iextrading.com/developer/docs/#usage):
 
 ## Installation
 
+[![Clojars Project](https://img.shields.io/clojars/v/clj-iex.svg)](https://clojars.org/clj-iex)
+
 With Leiningen or Boot:
 ```clojure
 [clj-iex "0.1.0"]
