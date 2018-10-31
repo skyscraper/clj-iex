@@ -152,7 +152,7 @@
   "Returns short interest list
   Per IEX API: The consolidated market short interest positions in all
   IEX-listed securities are included in the IEX Short Interest Report.
-  Both parameters are optional and should be specified as key value pairs.
+  Parameters are all optional and should be specified as key value pairs.
   `:sym` symbol; if omitted, market is used
   `:date` date in YYYYMMDD format; can also be sample
   `:format` csv or psv, default is json
@@ -161,7 +161,7 @@
   See https://iextrading.com/developer/docs/#iex-short-interest-list"
   [& {:keys [sym date] :as params :or {sym m}}]
   (api-call (ep sym "short-interest" (if date (str date) ""))
-            (select-keys params [:format :token])))
+            (select-keys params [:format :token :filter])))
 
 (defn get-key-stats
   "Returns key statistics for a given security.
