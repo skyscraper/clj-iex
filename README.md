@@ -50,7 +50,7 @@ Also note that every function in this library supports the optional `filter` par
 
 There's even a crypto quote endpoint:
 ```clojure
-(get-crypto-quotes)
+(stock/get-crypto-quotes)
 ```
 
 ## License
