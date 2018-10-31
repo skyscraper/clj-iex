@@ -6,3 +6,4 @@
   `format` optional; can only be csv, when omitted defaults to json."
   [& {:as params}]
   (api-call ["market"] params))
+
