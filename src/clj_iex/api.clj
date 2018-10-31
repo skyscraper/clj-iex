@@ -32,8 +32,6 @@
                                :else acc))
                        params
                        params)]
-     (println endpoint)
-     (println query-params)
      (-> @(http/get (str base-url (s-list "/" endpoint)) {:query-params query-params})
          :body
          to-string
