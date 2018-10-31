@@ -12,13 +12,10 @@
 
 (defonce base-url "https://api.iextrading.com/1.0/")
 
-;; TODO handle exceptions
 (defn api-call
   ([endpoint] (api-call endpoint {}))
   ([endpoint params]
-   (let [parse-fn (cond (= "csv" (name (:format params :none))) parse-csv
-                        (= "psv" (name (:format params :none))) #(parse-csv % :delimiter \|)
-                        :else #(parse-string % true))
+   (let [url (str base-url (s-list "/" endpoint))
          query-params (reduce
                        (fn [acc [k v]]
                          (cond (nil? v) (dissoc acc k)
@@ -31,9 +28,16 @@
                                              (update acc k trim))
                                :else acc))
                        params
-                       params)]
-     (-> @(http/get (str base-url (s-list "/" endpoint)) {:query-params query-params})
-         :body
-         to-string
-         parse-fn))))
+                       params)
+         parse-fn (cond (= "csv" (name (:format params :none))) parse-csv
+                        (= "psv" (name (:format params :none))) #(parse-csv % :delimiter \|)
+                        :else #(parse-string % true))]
+     (try
+       (-> @(http/get url {:query-params query-params})
+           :body
+           to-string
+           parse-fn)
+       (catch Exception e
+         (println "Error making request.")
+         {:error-message (.getMessage e)})))))
 
