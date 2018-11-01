@@ -1,0 +1,9 @@
+language: clojure
+branches:
+  only:
+    - master
+jdk:
+  - oraclejdk9
+  - oraclejdk8
+  - openjdk8
+  - openjdk7
