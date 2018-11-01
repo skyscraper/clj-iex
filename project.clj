@@ -1,4 +1,4 @@
-(defproject clj-iex "0.1.0"
+(defproject clj-iex "0.2.0-SNAPSHOT"
   :description "IEX API Library"
   :url "https://github.com/skyscraper/clj-iex"
   :license {:name "The MIT License"
