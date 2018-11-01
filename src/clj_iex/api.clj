@@ -2,9 +2,8 @@
   (:require [aleph.http :as http]
             [byte-streams :refer [to-string]]
             [cheshire.core :refer [parse-string]]
-            [clj-iex.utils :refer [s-list]]
             [clojure-csv.core :refer [parse-csv]]
-            [clojure.string :refer [trim]]))
+            [clojure.string :refer [join trim]]))
 
 ;; Data provided for free by IEX
 ;; See https://iextrading.com/api-exhibit-a/ for additional information
@@ -12,28 +11,41 @@
 
 (defonce base-url "https://api.iextrading.com/1.0/")
 
+(defn s-list [d xs]
+  (join d (map #(trim (name %)) xs)))
+
+(defn get-url [endpoint]
+  (str base-url (s-list "/" endpoint)))
+
+(defn sanitize-params [params]
+  (reduce
+   (fn [acc [k v]]
+     (cond (nil? v) (dissoc acc k)
+           (coll? v) (if (empty? v)
+                       (dissoc acc k)
+                       (update acc k (partial s-list ",")))
+           (keyword? v) (update acc k name)
+           (string? v) (if (empty? v)
+                         (dissoc acc k)
+                         (update acc k trim))
+           :else acc))
+   params
+   params))
+
+(defn get-parse-fn [format]
+  (condp = format
+    "csv" parse-csv
+    "psv" #(parse-csv % :delimiter \|)
+    #(parse-string % true)))
+
 (defn api-call
   ([endpoint] (api-call endpoint {}))
   ([endpoint params]
-   (let [url (str base-url (s-list "/" endpoint))
-         query-params (reduce
-                       (fn [acc [k v]]
-                         (cond (nil? v) (dissoc acc k)
-                               (coll? v) (if (empty? v)
-                                           (dissoc acc k)
-                                           (update acc k (partial s-list ",")))
-                               (keyword? v) (update acc k name)
-                               (string? v) (if (empty? v)
-                                             (dissoc acc k)
-                                             (update acc k trim))
-                               :else acc))
-                       params
-                       params)
-         parse-fn (cond (= "csv" (name (:format params :none))) parse-csv
-                        (= "psv" (name (:format params :none))) #(parse-csv % :delimiter \|)
-                        :else #(parse-string % true))]
+   (let [url (get-url endpoint)
+         query-params {:query-params (sanitize-params params)}
+         parse-fn (get-parse-fn (:format query-params))]
      (try
-       (-> @(http/get url {:query-params query-params})
+       (-> @(http/get url query-params)
            :body
            to-string
            parse-fn)
