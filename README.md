@@ -2,6 +2,9 @@
 
 A Clojure library to retrieve stock data from the IEX API.
 
+[![Clojars Project](https://img.shields.io/clojars/v/clj-iex.svg)](https://clojars.org/clj-iex)
+[![Continuous Integration status](https://secure.travis-ci.org/skyscraper/clj-iex.png)](http://travis-ci.org/skyscraper/clj-iex)
+
 ## Attribution
 
 Data provided for free by [IEX](https://iextrading.com/developer). View [IEX’s Terms of Use](https://iextrading.com/api-exhibit-a/).
@@ -14,8 +17,6 @@ Per their [usage documentation](https://iextrading.com/developer/docs/#usage):
 >We throttle endpoints by IP, but you should be able to achieve over 100 requests per second.
 
 ## Installation
-
-[![Clojars Project](https://img.shields.io/clojars/v/clj-iex.svg)](https://clojars.org/clj-iex)
 
 With Leiningen or Boot:
 ```clojure
