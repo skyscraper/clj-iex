@@ -3,7 +3,7 @@
 A Clojure library to retrieve stock data from the IEX API.
 
 [![Clojars Project](https://img.shields.io/clojars/v/clj-iex.svg)](https://clojars.org/clj-iex)
-[![Continuous Integration status](https://secure.travis-ci.org/skyscraper/clj-iex.png)](http://travis-ci.org/skyscraper/clj-iex)
+[![Build Status](https://travis-ci.org/skyscraper/clj-iex.svg?branch=master)](https://travis-ci.org/skyscraper/clj-iex)
 
 ## Attribution
 
