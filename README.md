@@ -1,5 +1,7 @@
 # clj-iex
 
+This library was originally written against an older version of IEX's API and doesn't work anymore; code is archived.
+
 A Clojure library to retrieve stock data from the IEX API.
 
 [![Clojars Project](https://img.shields.io/clojars/v/clj-iex.svg)](https://clojars.org/clj-iex)
